@@ -1,6 +1,7 @@
 const { ApolloServer, gql } = require("apollo-server");
 const mongoose = require("mongoose");
 
+const Post = require("./models/Post");
 const { MONGO_DB } = require("./config.js");
 
 /**
@@ -8,14 +9,27 @@ const { MONGO_DB } = require("./config.js");
  */
 
 const typeDefs = gql`
+	type Post {
+		id: ID!
+		body: String!
+		createdAt: String!
+		username: String!
+	}
 	type Query {
-		sayHi: String!
+		getPosts: [Post]
 	}
 `;
 
 const resolvers = {
 	Query: {
-		sayHi: () => "Hello world!",
+		getPosts: async () => {
+			try {
+				const posts = await Post.find();
+				return posts;
+			} catch (error) {
+				throw new Error(error);
+			}
+		},
 	},
 };
 
@@ -25,7 +39,7 @@ const server = new ApolloServer({
 });
 
 mongoose
-	.connect(MONGO_DB, { useNewUrlParser: true })
+	.connect(MONGO_DB, { useNewUrlParser: true, useUnifiedTopology: true })
 	.then(() => {
 		console.log("MongoDB connected");
 		return server.listen({ port: 4200 });
