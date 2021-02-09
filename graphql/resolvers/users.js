@@ -58,6 +58,7 @@ module.exports = {
 				token,
 			};
 		},
+
 		async login(parent, { username, password }) {
 			const { errors, valid } = validateLoginInput(username, password);
 			if (!valid) {
