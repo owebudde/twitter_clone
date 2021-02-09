@@ -8,6 +8,8 @@ module.exports = gql`
 		username: String!
 		comments: [Comment]!
 		likes: [Like]!
+		likeCount: Int!
+		commentCount: Int!
 	}
 
 	input RegisterInput {
@@ -41,6 +43,10 @@ module.exports = gql`
 		id: ID!
 		username: String!
 		createdAt: String!
+	}
+
+	type Subscription {
+		newPost: Post!
 	}
 
 	type Mutation {
