@@ -4,3 +4,8 @@
 	font-size: 2rem;
 	margin-top: 1rem;
 }
+
+.form-container {
+	max-width: 512px;
+	margin: auto;
+}

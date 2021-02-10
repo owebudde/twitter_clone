@@ -13,10 +13,10 @@ const Home = () => {
 
 	return (
 		<Grid columns={3}>
-			<Grid.Row className="page-title">
+			<Grid.Row textAlign="center" centered>
 				<h1>Welcome to TwitterClone</h1>
 			</Grid.Row>
-			<Grid.Row>
+			<Grid.Row textAlign="center" centered>
 				<h2>Built on MERN + GraphQL</h2>
 			</Grid.Row>
 
