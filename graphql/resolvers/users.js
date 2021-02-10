@@ -14,7 +14,7 @@ function generateToken(user) {
 		},
 		SECRET_KEY,
 		{
-			expiresIn: "1h",
+			expiresIn: "12h", // TODO: Reduce this.
 		}
 	);
 }
