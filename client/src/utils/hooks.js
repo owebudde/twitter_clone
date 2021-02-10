@@ -24,6 +24,7 @@ export const useForm = (callback, initialState = {}) => {
 
 	const onSubmit = (event) => {
 		event.preventDefault();
+		// Error handling on server-side.
 		callback();
 	};
 

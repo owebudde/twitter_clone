@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import gql from "graphql-tag";
-import { useMutation } from "@apollo/client";
+import { gql, useMutation } from "@apollo/client";
 import { Button, Form } from "semantic-ui-react";
 
 import { useForm } from "../utils/hooks";
@@ -19,7 +18,8 @@ const Register = (props) => {
 	 * Submit handling...
 	 */
 	const [addUser, { loading }] = useMutation(REGISTER_USER, {
-		update(proxy, result) {
+		update(_, { data: { register: userData } }) {
+			// context.login(userData);
 			props.history.push("/");
 		},
 		onError(err) {
@@ -28,12 +28,13 @@ const Register = (props) => {
 		variables: values,
 	});
 
-	const registerUser = () => addUser();
+	function registerUser() {
+		addUser();
+	}
 
 	return (
 		<div className="form-container">
 			<h1>Register</h1>
-			<h2>Built on MERN + GraphQL</h2>
 
 			<Form onSubmit={onSubmit} noValidate className={loading ? "loading" : ""}>
 				<h3>Register</h3>
@@ -97,7 +98,12 @@ const Register = (props) => {
 };
 
 const REGISTER_USER = gql`
-	mutation register($username: String!, $email: String!, $password: String!, $confirmPassword: String!) {
+	mutation register(
+		$username: String!
+		$email: String!
+		$password: String!
+		$confirmPassword: String!
+	) {
 		register(
 			registerInput: {
 				username: $username
