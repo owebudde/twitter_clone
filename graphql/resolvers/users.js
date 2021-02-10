@@ -21,9 +21,19 @@ function generateToken(user) {
 
 module.exports = {
 	Mutation: {
-		async register(parent, { registerInput: { username, email, password, confirmPassword } }, context, info) {
+		async register(
+			parent,
+			{ registerInput: { username, email, password, confirmPassword } },
+			context,
+			info
+		) {
 			// Validate user data.
-			const { valid, errors } = validateRegisterInput(username, email, password, confirmPassword);
+			const { valid, errors } = validateRegisterInput(
+				username,
+				email,
+				password,
+				confirmPassword
+			);
 			if (!valid) {
 				throw new UserInputError("Errors", { errors });
 			}
@@ -60,22 +70,24 @@ module.exports = {
 		},
 
 		async login(parent, { username, password }) {
+			// async login(_, { username, password }) {
 			const { errors, valid } = validateLoginInput(username, password);
+
 			if (!valid) {
 				throw new UserInputError("Errors", { errors });
 			}
 
 			const user = await User.findOne({ username });
-			const passwordMatch = await bcrypt.compare(password, user.password);
 
 			if (!user) {
-				errors.general = "User not found";
-				throw new UserInputError("Incorrect username", { errors });
+				// errors.general = "User not found";
+				throw new UserInputError("User not found", { errors });
 			}
 
-			if (!passwordMatch) {
-				errors.general = "Incorrect password";
-				throw new UserInputError("Incorrect password", { errors });
+			const match = await bcrypt.compare(password, user.password);
+			if (!match) {
+				// errors.general = "Wrong crendetials";
+				throw new UserInputError("Wrong crendetials", { errors });
 			}
 
 			const token = generateToken(user);

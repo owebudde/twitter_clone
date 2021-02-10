@@ -15,13 +15,15 @@ function Login(props) {
 	/**
 	 * Submit handling...
 	 */
-	const [loginUser, { loading }] = useMutation(LOGIN_USER, {
+	const [loginUser, { loading, error }] = useMutation(LOGIN_USER, {
 		update(proxy, result) {
 			props.history.push("/");
 		},
-		onError(err) {
-			console.log("login onError: ", err);
-			setErrors(err.graphQLErrors[0].extensions.exception.errors);
+		onError: async (err) => {
+			if (err.graphQLErrors) {
+				console.log("graphQLErrors", err, err.graphQLErrors);
+				setErrors(err.graphQLErrors[0].extensions.exception.errors);
+			}
 		},
 		variables: values,
 	});

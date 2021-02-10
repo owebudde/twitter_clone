@@ -23,6 +23,7 @@ const Register = (props) => {
 			props.history.push("/");
 		},
 		onError(err) {
+			console.log("Register on error: ", err, err.graphQLErrors);
 			setErrors(err.graphQLErrors[0].extensions.exception.errors);
 		},
 		variables: values,
