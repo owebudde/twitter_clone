@@ -17,7 +17,7 @@ function Login(props) {
 	/**
 	 * Submit handling...
 	 */
-	const [loginUser, { loading, error }] = useMutation(LOGIN_USER, {
+	const [loginUser, { loading }] = useMutation(LOGIN_USER, {
 		update(proxy, result) {
 			context.login(result.data.login);
 			props.history.push("/");

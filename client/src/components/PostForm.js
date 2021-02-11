@@ -30,22 +30,33 @@ function PostForm() {
 	}
 
 	return (
-		<Form onSubmit={onSubmit}>
-			<h3>Create a Post</h3>
+		<>
+			<Form onSubmit={onSubmit}>
+				<h3>Create a Post</h3>
 
-			<Form.Field>
-				<Form.Input
-					placeholder="Post content"
-					name="body"
-					onChange={onChange}
-					value={values.body}
-				/>
+				<Form.Field>
+					<Form.Input
+						placeholder="Post content"
+						name="body"
+						onChange={onChange}
+						value={values.body}
+						error={error ? true : false}
+					/>
 
-				<Button type="submit" color="teal">
-					Create
-				</Button>
-			</Form.Field>
-		</Form>
+					<Button type="submit" color="teal">
+						Create
+					</Button>
+				</Form.Field>
+			</Form>
+
+			{error && (
+				<div className="ui error message" style={{ marginBottom: "2rem" }}>
+					<ul className="list">
+						<li>{error.graphQLErrors[0].message}</li>
+					</ul>
+				</div>
+			)}
+		</>
 	);
 }
 
