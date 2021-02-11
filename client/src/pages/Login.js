@@ -20,7 +20,7 @@ function Login(props) {
 			props.history.push("/");
 		},
 		onError: async (err) => {
-			if (err.graphQLErrors) {
+			if (err.graphQLErrors.length) {
 				console.log("graphQLErrors", err, err.graphQLErrors);
 				setErrors(err.graphQLErrors[0].extensions.exception.errors);
 			}
@@ -79,7 +79,7 @@ function Login(props) {
 
 const LOGIN_USER = gql`
 	mutation login($username: String!, $password: String!) {
-		login(registerInput: { username: $username, password: $password }) {
+		login(username: $username, password: $password) {
 			id
 			email
 			username

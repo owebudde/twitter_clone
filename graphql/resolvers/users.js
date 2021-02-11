@@ -70,7 +70,6 @@ module.exports = {
 		},
 
 		async login(parent, { username, password }) {
-			// async login(_, { username, password }) {
 			const { errors, valid } = validateLoginInput(username, password);
 
 			if (!valid) {
