@@ -6,26 +6,36 @@ import moment from "moment";
 import { FETCH_POST_QUERY } from "../utils/queries";
 import { AuthContext } from "../context/auth";
 import LikeButton from "../components/LikeButton";
+import DeleteButton from "../components/DeleteButton";
 
 function SinglePost(props) {
 	const postId = props.match.params.postId;
 	const { user } = useContext(AuthContext);
-
-	console.log("Post ID: ", postId);
-
-	const {
-		data: { getPost },
-	} = useQuery(FETCH_POST_QUERY, {
+	const { data } = useQuery(FETCH_POST_QUERY, {
 		variables: {
 			postId,
 		},
+		onCompleted() {},
 	});
 
-	if (!getPost) {
+	if (!data) {
 		return <p>Loading Post...</p>;
 	}
 
-	const { id, body, createdAt, username, comments, likes, likeCount, commentCount } = getPost;
+	function deletePostCallback() {
+		props.history.push("/");
+	}
+
+	const {
+		id,
+		body,
+		createdAt,
+		username,
+		comments,
+		likes,
+		likeCount,
+		commentCount,
+	} = data.getPost;
 
 	return (
 		<Grid>
@@ -62,6 +72,10 @@ function SinglePost(props) {
 									{commentCount}
 								</Label>
 							</Button>
+
+							{user && user.username === username && (
+								<DeleteButton postId={id} callback={deletePostCallback} />
+							)}
 						</Card.Content>
 					</Card>
 				</Grid.Column>

@@ -2,18 +2,34 @@ import React, { useState } from "react";
 import { useMutation } from "@apollo/client";
 import { Button, Confirm, Icon } from "semantic-ui-react";
 
-import { DELETE_POST_MUTATION } from "../utils/queries";
+import { DELETE_POST_MUTATION, FETCH_POSTS_QUERY } from "../utils/queries";
 
-function DeleteButton({ postId }) {
+function DeleteButton({ postId, callback }) {
 	const [isConfirmOpen, setIsConfirmOpen] = useState(false);
 
 	const [deletePost] = useMutation(DELETE_POST_MUTATION, {
 		variables: {
 			postId,
 		},
-		update() {
+		update(proxy) {
 			setIsConfirmOpen(false);
-			// TODO: remove post from cache.
+
+			// Remove post from cache.
+			const data = proxy.readQuery({
+				query: FETCH_POSTS_QUERY,
+			});
+
+			const filteredPosts = data.getPosts.filter((post) => post.id !== postId);
+			proxy.writeQuery({
+				query: FETCH_POSTS_QUERY,
+				data: {
+					getPosts: filteredPosts,
+				},
+			});
+
+			if (callback) {
+				callback();
+			}
 		},
 		onError(error) {
 			console.log("WTF, cant delete post ", error);
