@@ -3,11 +3,13 @@ import { Link } from "react-router-dom";
 import { useMutation } from "@apollo/client";
 import { Button, Icon, Label } from "semantic-ui-react";
 
+// Relative Imports.
 import { LIKE_POST_MUTATION } from "../utils/queries";
 
 function LikeButton({ user, post: { id, likes, likeCount } }) {
 	const [liked, setLiked] = useState(false);
 
+	// FIXME: Getting User is null on fresh app start (for now pass empty obj conditional in parent).
 	useEffect(() => {
 		const likeUsernameMatch = likes.find((like) => like.username === user.username);
 		if (user && likeUsernameMatch) {

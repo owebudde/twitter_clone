@@ -29,7 +29,7 @@ const PostCard = ({
 			</Card.Content>
 
 			<Card.Content extra>
-				<LikeButton post={{ id, likes, likeCount }} user={user} />
+				<LikeButton post={{ id, likes, likeCount }} user={user || {}} />
 
 				<Button labelPosition="right" as={Link} to={`/posts/${id}`}>
 					<Button color="blue" basic>
