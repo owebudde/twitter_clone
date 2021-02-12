@@ -79,3 +79,9 @@ export const FETCH_POST_QUERY = gql`
 		}
 	}
 `;
+
+export const DELETE_POST_MUTATION = gql`
+	mutation deletePost($postId: ID!) {
+		deletePost(postId: $postId)
+	}
+`;
