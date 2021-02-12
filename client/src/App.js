@@ -3,7 +3,7 @@ import "semantic-ui-css/semantic.min.css";
 import { Container } from "semantic-ui-react";
 
 import { AuthProvider } from "./context/auth";
-import { Home, Login, Register } from "./pages";
+import { Home, Login, Register, SinglePost } from "./pages";
 import MenuBar from "./components/MenuBar";
 import AuthRoute from "./utils/authRoute";
 import "./App.css";
@@ -17,6 +17,7 @@ function App() {
 					<Route exact path="/" component={Home} />
 					<AuthRoute exact path="/login" component={Login} />
 					<AuthRoute exact path="/register" component={Register} />
+					<Route exact path="/posts/:postId" component={SinglePost} />
 				</Container>
 			</Router>
 		</AuthProvider>

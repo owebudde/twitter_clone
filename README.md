@@ -6,4 +6,4 @@
 3. https://dev.to/jandedobbeleer/a-viable-alternative-to-operator-mono-in-visual-studio-code-ge8
 4. https://markfromberg.com/projects/gintronic/
 
-
+1. https://getpocket.com/explore/item/one-pan-coconut-milk-braised-chicken?utm_source=pocket-newtab
