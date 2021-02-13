@@ -2,30 +2,40 @@ import React, { useState } from "react";
 import { useMutation } from "@apollo/client";
 import { Button, Confirm, Icon } from "semantic-ui-react";
 
-import { DELETE_POST_MUTATION, FETCH_POSTS_QUERY } from "../utils/queries";
+import {
+	DELETE_POST_MUTATION,
+	FETCH_POSTS_QUERY,
+	DELETE_COMMENT_MUTATION,
+} from "../utils/queries";
 
-function DeleteButton({ postId, callback }) {
+function DeleteButton({ postId, callback, commentId }) {
 	const [isConfirmOpen, setIsConfirmOpen] = useState(false);
 
-	const [deletePost] = useMutation(DELETE_POST_MUTATION, {
+	const _mutation = commentId ? DELETE_COMMENT_MUTATION : DELETE_POST_MUTATION;
+
+	const [deletePost] = useMutation(_mutation, {
 		variables: {
 			postId,
+			commentId,
 		},
 		update(proxy) {
 			setIsConfirmOpen(false);
 
-			// Remove post from cache.
-			const data = proxy.readQuery({
-				query: FETCH_POSTS_QUERY,
-			});
+			// If deleting a comment.
+			if (!commentId) {
+				// Remove post from cache.
+				const data = proxy.readQuery({
+					query: FETCH_POSTS_QUERY,
+				});
 
-			const filteredPosts = data.getPosts.filter((post) => post.id !== postId);
-			proxy.writeQuery({
-				query: FETCH_POSTS_QUERY,
-				data: {
-					getPosts: filteredPosts,
-				},
-			});
+				const filteredPosts = data.getPosts.filter((post) => post.id !== postId);
+				proxy.writeQuery({
+					query: FETCH_POSTS_QUERY,
+					data: {
+						getPosts: filteredPosts,
+					},
+				});
+			}
 
 			if (callback) {
 				callback();
