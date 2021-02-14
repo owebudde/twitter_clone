@@ -1,0 +1,4 @@
+[build]
+	base = "client/"
+	publish = "build/"
+	build = "yarn build"
