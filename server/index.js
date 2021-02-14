@@ -11,7 +11,7 @@ const resolvers = require("./graphql/resolvers");
 
 const pubsub = new PubSub();
 
-const PORT = process.env.port || 4200;
+const PORT = process.env.PORT || 4200;
 
 const server = new ApolloServer({
 	typeDefs,
